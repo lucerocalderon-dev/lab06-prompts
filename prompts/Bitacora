@@ -1,0 +1,103 @@
+# Bitácora de prompts
+- [Bitacora de prompts](prompts/BITACORA.md)
+Laboratorio 06: Fundamentos de Ingeniería de Prompts.
+Herramienta de IA usada: OpenIA / Gemini
+
+## Ejercicio 2: Tokens y ventana de contexto
+
+### Tabla de medición de tokens:
+
+| Texto | Caracteres | Tokens |
+|---|---|---|
+| Los estudiantes programan en Java. | 36 | 8 |
+| The students program in Java. | 29 | 6 |
+| desafortunadamente | 18 | 4 |
+
+### Explicación sobre la Ventana de Contexto:
+En el paso 4, la IA respondió correctamente que la aplicación se llama **TiendaTec** y usa **Java Swing** porque dicha información estaba guardada dentro del historial de la conversación actual (su ventana de contexto activa).
+
+En el paso 5, al hacer la pregunta en un chat nuevo, la IA indicó que no tenía acceso a la información del dispositivo ni a proyectos locales porque la ventana de contexto inició totalmente vacía y no conservó memoria del chat anterior.
+
+---
+
+## Ejercicio 3: Temperatura
+
+### Tabla de resultados del Simulador en Java:
+
+| Temperatura | % de BiblioTec | Nombres en los 5 intentos |
+|---|---|---|
+| 0.0 | 100.0% | BiblioTec, BiblioTec, BiblioTec, BiblioTec, BiblioTec |
+| 0.5 | ~70.5% | BiblioTec, BiblioTec, BiblioTec, LibroYa, LibroYa |
+| 1.0 | ~45.2% | BiblioTec, LectoGo, LibroYa, BiblioTec, BiblioTec |
+| 1.8 | ~32.1% | BiblioTec, LibroYa, PrestaLibro, PaginaLibre, BiblioTec |
+
+### Observaciones de Temperatura:
+Al aumentar la temperatura, el porcentaje de "BiblioTec" disminuye del 100.0% al 32.1%, haciendo que los 5 intentos sean cada vez más variados.
+El simulador nunca inventa un nombre nuevo porque la temperatura no añade conocimiento, solo cambia la probabilidad con la que elige entre las opciones ya existentes.
+
+---
+
+## Ejercicio 4: Prompt vago vs estructurado
+
+### Prompts utilizados:
+* **Prompt vago (Chat 1):** `Hazme una descripcion de un sistema de biblioteca.`
+* **Prompt estructurado (Chat 2):** `Actua como analista de sistemas. Redacta una descripcion breve de un sistema web para gestionar prestamos de libros en una biblioteca. Incluye objetivo, usuarios principales y 3 funcionalidades clave. Utiliza un lenguaje claro y profesional y presenta el resultado en 3 parrafos.`
+
+## Ejercicio 4: Prompt vago vs estructurado
+
+### Prompts utilizados:
+* **Prompt vago (Chat 1):** `Hazme una descripcion de un sistema de biblioteca.`
+* **Prompt estructurado (Chat 2):** `Actua como analista de sistemas. Redacta una descripcion breve de un sistema web para gestionar prestamos de libros en una biblioteca. Incluye objetivo, usuarios principales y 3 funcionalidades clave. Utiliza un lenguaje claro y profesional y presenta el resultado en 3 parrafos.`
+
+### Comparación de resultados:
+
+| Criterio | Prompt vago | Prompt estructurado |
+|---|---|---|
+| Menciona el objetivo del sistema | Sí | Sí |
+| Menciona a los usuarios principales | Sí | Sí |
+| Tiene exactamente 3 funcionalidades | No | Sí |
+| Está en 3 párrafos | No | Sí |
+| Lo usaría en un informe real | No | Sí |
+
+---
+## Ejercicio 5: Anatomía de un prompt
+
+### Componentes del Prompt Final:
+
+| Componente | Texto de mi prompt |
+|---|---|
+| Rol | Actúa como desarrollador Java. |
+| Instrucción | Crea un programa en Java usando una clase Producto con los atributos codigo, nombre, precio y stock. |
+| Contexto | Para gestionar los productos de una tienda. |
+| Ejemplo | Usa este estilo para los métodos: getPrecio(), setPrecio(double precio). |
+| Formato | Explica primero la estructura de la clase y luego presenta el código Java. |
+
+### Cambios observados por nivel:
+* Nivel 1: Generó una clase o programa genérico (ej. Hola Mundo o calculadora sin estructura comercial).
+* Nivel 2 (+Rol): Asumió un perfil técnico y estructuró mejor la sintaxis orientada a objetos.
+* Nivel 3 (+Contexto): Enfocó el dominio del software hacia la gestión de una tienda.
+* Nivel 4 (+Instrucción especifica): Implementó exactamente la clase Producto con los 4 atributos solicitados.
+* Nivel 5 (+Formato y Ejemplo): Separó la explicación conceptual del código e incluyó la convención exacta de métodos solicitada.
+
+---
+
+## Ejercicio 6: Del prompt básico al profesional
+
+### Evaluación del Prompt Profesional:
+
+| Qué revisar | Cumple (Sí/No) |
+|---|---|
+| ¿Está escrito en Java y usa Swing? | Sí |
+| ¿Pide correo y contraseña? | Sí |
+| ¿Explica el funcionamiento antes o después del código? | Sí |
+| ¿El código está organizado en clases? | Sí |
+| ¿Valida los datos que ingresa el usuario? | No |
+
+### Prompts de Iteración:
+
+```text
+-- Prompt Profesional (v1):
+Actua como desarrollador Java. Crea un ejemplo de login para una aplicacion de escritorio utilizando Swing. El usuario debe ingresar correo y contrasena. Explica brevemente el funcionamiento y presenta el codigo organizado por clases.
+
+-- Prompt de Mejora / Iteración (v2 enviado en el mismo chat):
+Mejora el codigo anterior con estas restricciones: no uses librerias externas, valida que el correo contenga @ y que la contrasena tenga al menos 8 caracteres, y muestra los mensajes con JOptionPane.
